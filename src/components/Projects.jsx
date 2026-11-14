@@ -13,8 +13,8 @@ export default function Projects() {
         <AnimatedSection>
           <SectionHeading
             eyebrow="03 — Projects"
-            title="Selected Projects"
-            description="A selection of applications and analytics work built to solve real operational and business problems."
+            title="Selected work"
+            description="A closer look at projects across software, logistics, web design, and analytics—along with the tools and thinking behind each one."
           />
           {featuredProject ? (
             <ProjectCard project={featuredProject} variant="featured" />

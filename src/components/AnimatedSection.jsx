@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 export default function AnimatedSection({
@@ -6,14 +7,16 @@ export default function AnimatedSection({
   delay = 0,
 }) {
   const shouldReduceMotion = useReducedMotion();
+  const [hasEntered, setHasEntered] = useState(false);
 
   return (
     <motion.section
-      className={className}
-      initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+      className={`animated-section ${hasEntered ? "is-visible" : ""} ${className}`}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
       whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay }}
+      transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay }}
+      onViewportEnter={() => setHasEntered(true)}
     >
       {children}
     </motion.section>

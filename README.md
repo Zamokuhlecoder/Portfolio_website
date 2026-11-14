@@ -1,4 +1,4 @@
-# Zamokuhle Mazibuko — Portfolio
+# Zamokuhle Sibusiso Mazibuko — Portfolio
 
 ## Run locally
 

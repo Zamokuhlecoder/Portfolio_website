@@ -36,78 +36,97 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="scroll-mt-24 border-t border-line">
+    <section
+      id="contact"
+      className="scroll-mt-24 border-t border-line bg-forest-soft/40"
+    >
       <div className="mx-auto grid max-w-7xl gap-16 px-6 py-16 lg:grid-cols-2 lg:px-8 lg:py-24">
         <AnimatedSection>
           <SectionHeading
             eyebrow="05 — Contact"
-            title="Let's Build Something Together."
-            description="I'm always interested in connecting with people, exploring new opportunities, and collaborating on technology-driven projects."
+            title="Let's start a conversation."
+            description="Have an opportunity, a project idea, or a shared interest in technology? I&rsquo;d be glad to hear from you."
           />
-          <ul className="mt-8 space-y-4 text-sm">
+          <ul className="scroll-stagger mt-8 space-y-3 text-sm">
             <li className="flex items-center gap-3">
-              <Mail size={17} className="text-accent" aria-hidden="true" />
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent-soft text-accent">
+                <Mail size={17} aria-hidden="true" />
+              </span>
               <a
                 href="mailto:zamosibusiso6@gmail.com"
-                className="text-ink-muted hover:text-ink"
+                className="min-w-0 break-all font-medium text-ink-muted transition-colors hover:text-accent"
               >
                 zamosibusiso6@gmail.com
               </a>
             </li>
             <li className="flex items-center gap-3 text-ink-muted">
-              <MapPin size={17} className="text-accent" aria-hidden="true" />
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-forest text-surface">
+                <MapPin size={17} aria-hidden="true" />
+              </span>
               Johannesburg, South Africa
             </li>
             <li className="flex items-center gap-3">
-              <Github size={17} className="text-accent" aria-hidden="true" />
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent-soft text-accent">
+                <Github size={17} aria-hidden="true" />
+              </span>
               <a
                 href="https://github.com/Zamokuhlecoder"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-ink-muted hover:text-ink"
+                className="min-w-0 break-all font-medium text-ink-muted transition-colors hover:text-accent"
               >
                 github.com/Zamokuhlecoder
               </a>
             </li>
             <li className="flex items-center gap-3">
-              <Linkedin size={17} className="text-accent" aria-hidden="true" />
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent-soft text-accent">
+                <Linkedin size={17} aria-hidden="true" />
+              </span>
               <a
                 href="https://linkedin.com/in/zamokuhle-mazibuko-a571702a3"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-ink-muted hover:text-ink"
+                className="min-w-0 break-all font-medium text-ink-muted transition-colors hover:text-accent"
               >
                 linkedin.com/in/zamokuhle-mazibuko-a571702a3
               </a>
             </li>
           </ul>
-          <SocialLinks className="mt-6" />
+          <SocialLinks className="scroll-reveal mt-6" />
         </AnimatedSection>
 
         <AnimatedSection delay={0.1}>
           <form
             onSubmit={handleSubmit}
-            className="border border-line bg-surface p-8"
+            className="premium-card scroll-stagger p-6 sm:p-8"
           >
+            <div className="mb-7 border-b border-line pb-5">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-accent">
+                Get in touch
+              </p>
+              <h3 className="mt-2 text-xl font-bold tracking-tight text-ink">
+                Send a message
+              </h3>
+            </div>
             <div className="grid gap-5 sm:grid-cols-2">
               <label className="block text-sm font-medium text-ink">
-                Full Name
+                Name
                 <input
                   name="name"
                   type="text"
                   autoComplete="name"
                   required
-                  className="mt-2 w-full border border-line bg-canvas px-3 py-2.5 text-sm outline-none focus:border-accent"
+                  className="input mt-2 text-sm"
                 />
               </label>
               <label className="block text-sm font-medium text-ink">
-                Email Address
+                Email
                 <input
                   name="email"
                   type="email"
                   autoComplete="email"
                   required
-                  className="mt-2 w-full border border-line bg-canvas px-3 py-2.5 text-sm outline-none focus:border-accent"
+                  className="input mt-2 text-sm"
                 />
               </label>
             </div>
@@ -117,7 +136,7 @@ export default function Contact() {
                 name="subject"
                 type="text"
                 required
-                className="mt-2 w-full border border-line bg-canvas px-3 py-2.5 text-sm outline-none focus:border-accent"
+                className="input mt-2 text-sm"
               />
             </label>
             <label className="mt-5 block text-sm font-medium text-ink">
@@ -126,13 +145,13 @@ export default function Contact() {
                 name="message"
                 rows={5}
                 required
-                className="mt-2 w-full resize-y border border-line bg-canvas px-3 py-2.5 text-sm outline-none focus:border-accent"
+                className="textarea mt-2 resize-y text-sm"
               />
             </label>
             <button
               type="submit"
               disabled={status === "sending"}
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-md bg-accent px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="button-primary mt-6 w-full disabled:cursor-not-allowed disabled:opacity-60"
             >
               <Send size={16} aria-hidden="true" />
               {status === "sending" ? "Sending…" : "Send Message"}
@@ -140,17 +159,16 @@ export default function Contact() {
             {status === "success" ? (
               <p
                 role="status"
-                className="mt-4 text-sm font-medium text-green-700"
+                className="mt-4 text-sm font-medium text-success"
               >
                 Your message has been sent. I&apos;ll respond as soon as
                 possible.
               </p>
             ) : null}
             {status === "error" ? (
-              <p role="alert" className="mt-4 text-sm font-medium text-red-700">
-                The message could not be sent. Please verify your EmailJS
-                environment variables or email me directly at
-                zamosibusiso6@gmail.com.
+              <p role="alert" className="mt-4 text-sm font-medium text-danger">
+                Your message could not be sent. Please try again or email me
+                directly at zamosibusiso6@gmail.com.
               </p>
             ) : null}
           </form>

@@ -8,7 +8,7 @@ export default function SocialLinks({ className = "", size = 18 }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="GitHub profile"
-        className="text-ink-muted transition-colors hover:text-accent"
+        className="text-ink-muted transition-colors transition-transform hover:-translate-y-0.5 hover:text-accent"
       >
         <Github size={size} aria-hidden="true" />
       </a>
@@ -17,7 +17,7 @@ export default function SocialLinks({ className = "", size = 18 }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="LinkedIn profile"
-        className="text-ink-muted transition-colors hover:text-accent"
+        className="text-ink-muted transition-colors transition-transform hover:-translate-y-0.5 hover:text-accent"
       >
         <Linkedin size={size} aria-hidden="true" />
       </a>

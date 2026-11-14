@@ -7,33 +7,41 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="scroll-mt-24 border-b border-line bg-white/40"
+      className="scroll-mt-24 border-b border-line bg-accent-soft/25"
     >
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-24">
         <AnimatedSection>
           <SectionHeading
             eyebrow="04 — Certifications"
-            title="Certifications & Professional Development"
-            description="Formal training and credentials supporting my work in data analytics and business intelligence."
+            title="Learning & certifications"
+            description="Google certificates and coursework in analytics, machine learning, statistics, and regression, alongside Microsoft Power BI training."
           />
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {certifications.map(({ name, issuer, credentialUrl, image }) => (
               <article
                 key={name}
-                className="flex gap-5 border border-line bg-surface p-6"
+                className="premium-card flex min-h-56 flex-col p-6"
               >
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center border border-line bg-canvas text-accent">
-                  <BadgeCheck size={22} aria-hidden="true" />
+                <div className="flex items-start justify-between gap-4">
+                  <span className="certification-icon flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-forest text-surface">
+                    <BadgeCheck size={21} aria-hidden="true" />
+                  </span>
+                  <span className="inline-flex items-center gap-2 border border-line bg-canvas px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-forest">
+                    <span className="h-1 w-1 bg-accent" aria-hidden="true" />
+                    {issuer}
+                  </span>
                 </div>
-                <div className="min-w-0">
-                  <h3 className="text-base font-bold text-ink">{name}</h3>
-                  <p className="mt-1 text-sm text-ink-muted">{issuer}</p>
+                <h3 className="mt-5 font-serif text-lg font-medium leading-6 text-ink-strong">
+                  {name}
+                </h3>
+                <div className="mt-auto pt-5">
+                  <div className="h-px bg-line" />
                   {credentialUrl ? (
                     <a
                       href={credentialUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 inline-block text-sm font-medium text-accent hover:underline"
+                      className="mt-4 inline-flex text-sm font-semibold text-accent hover:text-accent-deep"
                     >
                       View credential
                     </a>

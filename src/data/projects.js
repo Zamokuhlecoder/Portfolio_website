@@ -2,10 +2,10 @@ export const projects = [
   {
     id: "aiviate",
     name: "Aiviate",
-    tagline: "AI-Powered Delivery & Fleet Management Platform",
+    tagline: "Delivery and Fleet Management Platform",
     category: "Full-Stack Development · Logistics Technology · AI Integration",
     description:
-      "Developed a web-based logistics platform designed to help businesses manage orders, optimise delivery routes, and coordinate drivers through a centralised dispatch dashboard.",
+      "A web-based logistics platform for managing orders, optimising delivery routes, and coordinating drivers through a central dispatch dashboard.",
     features: [
       "Spreadsheet-based order uploads",
       "Delivery route optimisation",
@@ -22,8 +22,6 @@ export const projects = [
     technologies: ["React", "Node.js", "Express.js", "Firebase", "Azure"],
     liveUrl: "https://brave-tree-054688510.7.azurestaticapps.net/",
     githubUrl: null,
-    image: "/projects/aiviate-preview.jpg",
-    imageAlt: "Aiviate dispatch dashboard preview",
     featured: true,
   },
   {
@@ -32,7 +30,7 @@ export const projects = [
     tagline: "Sales, Profitability & Inventory Intelligence",
     category: "Data Analytics · Business Intelligence",
     description:
-      "A Business Intelligence solution designed to help retail businesses understand their sales performance, profitability, inventory levels, and customer trends.",
+      "An interactive retail dashboard for exploring sales performance, profitability, inventory levels, and customer trends.",
     features: [
       "Sales and profit analysis",
       "Regional performance comparison",
@@ -44,8 +42,6 @@ export const projects = [
     technologies: ["Power BI", "Python", "SQL", "CSV Data"],
     liveUrl: null,
     githubUrl: "https://github.com/Zamokuhlecoder/Retail_BI_Dashboard",
-    image: "/projects/retail-bi-preview.jpg",
-    imageAlt: "Retail Business Intelligence dashboard preview",
     featured: false,
   },
   {
@@ -54,7 +50,7 @@ export const projects = [
     tagline: "Responsive Freight Services Web Presence",
     category: "Frontend Development · Web Design",
     description:
-      "A responsive logistics and freight services website designed to strengthen the company's online presence and improve customer interaction.",
+      "A responsive website presenting FreightShift's logistics and freight services, with structured navigation and a clear layout for customer engagement.",
     features: [
       "Responsive user interface",
       "Logistics service presentation",
@@ -65,8 +61,6 @@ export const projects = [
     technologies: ["HTML5", "CSS3", "JavaScript"],
     liveUrl: "https://freightshift-website.vercel.app/",
     githubUrl: "https://github.com/Zamokuhlecoder/freightshift-website",
-    image: "/projects/freightshift-preview.jpg",
-    imageAlt: "FreightShift logistics website preview",
     featured: false,
   },
 ];

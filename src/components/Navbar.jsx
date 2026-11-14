@@ -21,10 +21,10 @@ function NavigationLinks({ activeSection, onNavigate, mobile = false }) {
             href={`#${id}`}
             aria-current={activeSection === id ? "page" : undefined}
             onClick={onNavigate}
-            className={`block py-2 text-sm font-medium transition-colors ${
+            className={`relative block py-2 text-sm font-medium transition-colors after:absolute after:inset-x-0 after:-bottom-1 after:h-px after:origin-left after:bg-accent after:transition-transform ${
               activeSection === id
-                ? "text-accent"
-                : "text-ink-muted hover:text-ink"
+                ? "text-accent after:scale-x-100"
+                : "text-ink-muted after:scale-x-0 hover:text-ink hover:after:scale-x-100"
             }`}
           >
             {label}
@@ -40,9 +40,7 @@ function DownloadButton({ mobile = false }) {
     <a
       href={cvHref}
       download
-      className={`inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 ${
-        mobile ? "mt-4 w-full" : ""
-      }`}
+      className={`button-primary px-4 py-2.5 ${mobile ? "mt-4 w-full" : ""}`}
     >
       <Download size={16} aria-hidden="true" />
       Download CV
@@ -75,17 +73,22 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-canvas/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-line bg-canvas/90 shadow-sm backdrop-blur-xl">
       <nav
         aria-label="Primary"
-        className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5 lg:px-8"
       >
         <a
           href="#home"
           onClick={() => setMenuOpen(false)}
-          className="text-sm font-bold tracking-tight text-ink"
+          className="inline-flex items-center gap-2.5 text-xs font-bold tracking-tight text-ink sm:text-sm"
         >
-          Zamokuhle<span className="text-accent">.</span>
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md bg-forest text-[0.65rem] font-bold tracking-wide text-white">
+            ZM
+          </span>
+          <span className="whitespace-nowrap">
+            Zamokuhle Sibusiso Mazibuko<span className="text-accent">.</span>
+          </span>
         </a>
 
         <div className="hidden lg:block">
@@ -98,7 +101,7 @@ export default function Navbar() {
 
         <button
           type="button"
-          className="inline-flex h-10 w-10 items-center justify-center border border-line text-ink-muted transition-colors hover:border-accent hover:text-accent lg:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line bg-surface text-ink-muted transition-colors hover:border-forest hover:text-forest lg:hidden"
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -114,7 +117,7 @@ export default function Navbar() {
 
       <div
         id="mobile-menu"
-        className={`${menuOpen ? "block" : "hidden"} border-t border-line bg-canvas px-6 py-4 lg:hidden`}
+        className={`${menuOpen ? "block" : "hidden"} border-t border-line bg-canvas px-6 py-4 shadow-lg lg:hidden`}
       >
         <NavigationLinks
           activeSection={activeSection}
