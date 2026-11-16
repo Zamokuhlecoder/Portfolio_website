@@ -14,14 +14,12 @@ success.
 ## Portfolio assets
 
 - Add the CV at `public/cv/Zamokuhle-Mazibuko-CV.pdf`.
-- Add project previews at `public/projects/aiviate-preview.jpg`,
-  `public/projects/retail-bi-preview.jpg`, and
-  `public/projects/freightshift-preview.jpg`. Use genuine project screenshots; 1600 × 1000
-  JPEGs under 500 KB are recommended.
+- Project screenshots are stored in `public/ProjectPictures/` and configured in
+  `src/data/projects.js`.
 - Add certificate images in `public/certificates/` and set their paths in
   `src/data/certifications.js`. Credential links are optional.
 
-Missing project previews display a text-only “Screenshot coming soon” fallback.
+Missing project previews display an illustrated fallback.
 
 ## EmailJS
 

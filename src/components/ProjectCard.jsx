@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import {
   BarChart3,
   ExternalLink,
@@ -6,7 +8,9 @@ import {
   Monitor,
   Truck,
 } from "lucide-react";
-import { useState } from "react";
+
+const EASE = [0.22, 1, 0.36, 1];
+const SPRING = { type: "spring", stiffness: 340, damping: 26 };
 
 const projectArtwork = {
   aiviate: { Icon: Truck, mark: "A" },
@@ -14,7 +18,48 @@ const projectArtwork = {
   freightshift: { Icon: Monitor, mark: "F" },
 };
 
+const contentStagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
+};
+
+const riseItem = {
+  hidden: { opacity: 0, y: 16, filter: "blur(4px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.55, ease: EASE },
+  },
+};
+
+const featureList = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.04 } },
+};
+
+const featureItem = {
+  hidden: { opacity: 0, x: -8 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: EASE } },
+};
+
+const techList = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.03 } },
+};
+
+const techItem = {
+  hidden: { opacity: 0, y: 6, scale: 0.94 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.35, ease: EASE },
+  },
+};
+
 function ProjectImage({ project, className = "" }) {
+  const reduce = useReducedMotion();
   const [imageAvailable, setImageAvailable] = useState(Boolean(project.image));
   const artwork = projectArtwork[project.id] ?? {
     Icon: ImageIcon,
@@ -23,72 +68,141 @@ function ProjectImage({ project, className = "" }) {
   const ArtworkIcon = artwork.Icon;
 
   return (
-    <div className={`relative overflow-hidden bg-forest-soft ${className}`}>
+    <motion.div
+      className={`group/image relative overflow-hidden bg-forest-soft ${className}`}
+      initial={reduce ? false : { opacity: 0, scale: 1.03, filter: "blur(6px)" }}
+      whileInView={
+        reduce ? undefined : { opacity: 1, scale: 1, filter: "blur(0px)" }
+      }
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.9, ease: EASE }}
+    >
       {imageAvailable ? (
-        <img
-          src={project.image}
-          alt={project.imageAlt ?? `${project.name} project preview`}
-          loading="lazy"
-          onError={() => setImageAvailable(false)}
-          className="h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-[1.03]"
-        />
+        <div className="project-preview">
+          <div className="project-preview__frame">
+            <img
+              src={project.image}
+              alt={project.imageAlt ?? `${project.name} project preview`}
+              loading="lazy"
+              onError={() => {
+                console.error(`Could not load project image: ${project.image}`);
+                setImageAvailable(false);
+              }}
+              className="project-preview__image transition-transform duration-700 ease-out group-hover/image:scale-[1.04]"
+            />
+          </div>
+        </div>
       ) : (
         <div
           aria-hidden="true"
           className={`project-artwork project-artwork--${project.id} h-full w-full`}
         >
           <div className="project-artwork__top">
-            <span className="project-artwork__icon">
+            <motion.span
+              className="project-artwork__icon inline-flex"
+              whileHover={reduce ? undefined : { rotate: -8, scale: 1.06 }}
+              transition={SPRING}
+            >
               <ArtworkIcon size={22} strokeWidth={1.6} />
-            </span>
+            </motion.span>
             <span className="project-artwork__index">
               SELECTED WORK / {artwork.mark}
             </span>
           </div>
-          <span className="project-artwork__monogram">{artwork.mark}</span>
+          <motion.span
+            className="project-artwork__monogram"
+            animate={reduce ? undefined : { opacity: [0.82, 1, 0.82] }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            {artwork.mark}
+          </motion.span>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }
 
 function ProjectContent({ project, featured = false }) {
-  return (
-    <div className={featured ? "p-8 lg:p-10" : "p-6"}>
-      <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-accent">
-        <span className="h-1 w-1 bg-accent" aria-hidden="true" />
-        {project.category}
-      </p>
-      <h3 className="mt-3 font-serif text-3xl font-medium tracking-tight text-ink-strong">
-        {project.name}
-      </h3>
-      <p className="mt-1 text-sm font-medium text-ink-muted">
-        {project.tagline}
-      </p>
-      <p className="mt-5 text-sm leading-relaxed text-ink-muted">
-        {project.description}
-      </p>
+  const reduce = useReducedMotion();
+  const visibleCount = featured ? 6 : 4;
+  const visibleFeatures = project.features.slice(0, visibleCount);
+  const hiddenFeatures = project.features.slice(visibleCount);
 
-      <ul className="mt-5 grid gap-2 text-sm text-ink-muted sm:grid-cols-2">
-        {project.features.slice(0, featured ? 6 : 4).map((feature) => (
-          <li key={feature} className="flex gap-2">
+  return (
+    <motion.div
+      className={featured ? "p-8 lg:p-10" : "p-6"}
+      initial={reduce ? false : "hidden"}
+      whileInView={reduce ? undefined : "visible"}
+      viewport={{ once: true, margin: "-60px" }}
+      variants={contentStagger}
+    >
+      <motion.p
+        variants={riseItem}
+        className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-accent"
+      >
+        <motion.span
+          className="h-1 w-1 bg-accent"
+          animate={reduce ? undefined : { opacity: [1, 0.4, 1] }}
+          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+          aria-hidden="true"
+        />
+        {project.category}
+      </motion.p>
+
+      <motion.h3
+        variants={riseItem}
+        className="mt-3 font-serif text-3xl font-medium tracking-tight text-ink-strong"
+      >
+        {project.name}
+      </motion.h3>
+
+      <motion.p
+        variants={riseItem}
+        className="mt-1 text-sm font-medium text-ink-muted"
+      >
+        {project.tagline}
+      </motion.p>
+
+      <motion.p
+        variants={riseItem}
+        className="mt-5 text-sm leading-relaxed text-ink-muted"
+      >
+        {project.description}
+      </motion.p>
+
+      <motion.ul
+        variants={featureList}
+        className="mt-5 grid gap-2 text-sm text-ink-muted sm:grid-cols-2"
+      >
+        {visibleFeatures.map((feature) => (
+          <motion.li
+            key={feature}
+            variants={featureItem}
+            className="flex gap-2"
+          >
             <span
               className="mt-1.5 h-1 w-1 shrink-0 bg-accent"
               aria-hidden="true"
             />
             {feature}
-          </li>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
 
-      {project.features.length > (featured ? 6 : 4) ? (
-        <details className="mt-4 border-t border-line pt-3">
+      {hiddenFeatures.length > 0 ? (
+        <motion.details
+          variants={riseItem}
+          className="mt-4 border-t border-line pt-3"
+        >
           <summary className="project-feature-toggle">
-            View {project.features.length - (featured ? 6 : 4)} more project
-            features
+            View {hiddenFeatures.length} more project features
           </summary>
           <ul className="mt-3 grid gap-2 text-sm text-ink-muted sm:grid-cols-2">
-            {project.features.slice(featured ? 6 : 4).map((feature) => (
+            {hiddenFeatures.map((feature) => (
               <li key={feature} className="flex gap-2">
                 <span
                   className="mt-1.5 h-1 w-1 shrink-0 bg-accent"
@@ -98,80 +212,137 @@ function ProjectContent({ project, featured = false }) {
               </li>
             ))}
           </ul>
-        </details>
+        </motion.details>
       ) : null}
 
-      <ul className="mt-6 flex flex-wrap gap-2" aria-label="Technologies used">
+      <motion.ul
+        variants={techList}
+        className="mt-6 flex flex-wrap gap-2"
+        aria-label="Technologies used"
+      >
         {project.technologies.map((technology) => (
-          <li
+          <motion.li
             key={technology}
+            variants={techItem}
+            whileHover={reduce ? undefined : { y: -2, scale: 1.04 }}
+            transition={SPRING}
             className="border border-line bg-canvas px-2 py-1 text-xs text-ink-muted"
           >
             {technology}
-          </li>
+          </motion.li>
         ))}
-      </ul>
+      </motion.ul>
 
-      <div className="mt-8 flex flex-wrap gap-3">
+      <motion.div variants={riseItem} className="mt-8 flex flex-wrap gap-3">
         {project.liveUrl ? (
-          <a
+          <motion.a
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="button-primary px-4 py-2.5"
+            className="button-primary group/live px-4 py-2.5"
+            whileHover={reduce ? undefined : { y: -2 }}
+            whileTap={reduce ? undefined : { scale: 0.97 }}
+            transition={SPRING}
           >
             Live Demo
-            <ExternalLink size={15} aria-hidden="true" />
-          </a>
+            <ExternalLink
+              size={15}
+              className="transition-transform duration-300 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5"
+              aria-hidden="true"
+            />
+          </motion.a>
         ) : null}
+
         {project.githubUrl ? (
-          <a
+          <motion.a
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="button-secondary px-4 py-2.5"
+            className="button-secondary group/gh px-4 py-2.5"
+            whileHover={reduce ? undefined : { y: -2 }}
+            whileTap={reduce ? undefined : { scale: 0.97 }}
+            transition={SPRING}
           >
-            <Github size={16} aria-hidden="true" />
+            <Github
+              size={16}
+              className="transition-transform duration-300 group-hover/gh:-rotate-6"
+              aria-hidden="true"
+            />
             GitHub
-          </a>
+          </motion.a>
         ) : null}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
 export default function ProjectCard({ project, variant = "image-top" }) {
+  const reduce = useReducedMotion();
+
+  const hoverProps = reduce
+    ? {}
+    : { whileHover: { y: -6 }, transition: SPRING };
+
+  const glow = (
+    <div
+      className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+      style={{
+        background:
+          "radial-gradient(520px circle at 50% 0%, color-mix(in oklab, var(--color-accent, #8b5cf6) 8%, transparent), transparent 70%)",
+      }}
+      aria-hidden="true"
+    />
+  );
+
   if (variant === "featured") {
     return (
-      <article className="premium-card mt-12 grid gap-0 overflow-hidden lg:grid-cols-[1.1fr_0.9fr]">
+      <motion.article
+        {...hoverProps}
+        className="premium-card group relative mt-12 grid gap-0 overflow-hidden lg:grid-cols-[1.1fr_0.9fr]"
+      >
+        {glow}
         <ProjectImage
           project={project}
-          className="aspect-[4/3] lg:aspect-auto"
+          className="relative z-10 aspect-[4/3] lg:aspect-auto"
         />
-        <ProjectContent project={project} featured />
-      </article>
+        <div className="relative z-10">
+          <ProjectContent project={project} featured />
+        </div>
+      </motion.article>
     );
   }
 
   if (variant === "image-right") {
     return (
-      <article className="premium-card grid overflow-hidden lg:grid-cols-[1.1fr_0.9fr]">
+      <motion.article
+        {...hoverProps}
+        className="premium-card group relative grid overflow-hidden lg:grid-cols-[1.1fr_0.9fr]"
+      >
+        {glow}
         <ProjectImage
           project={project}
-          className="order-first aspect-[16/9] border-b border-line lg:order-last lg:aspect-auto lg:border-b-0 lg:border-l"
+          className="relative z-10 order-first aspect-[16/9] border-b border-line lg:order-last lg:aspect-auto lg:border-b-0 lg:border-l"
         />
-        <ProjectContent project={project} />
-      </article>
+        <div className="relative z-10">
+          <ProjectContent project={project} />
+        </div>
+      </motion.article>
     );
   }
 
   return (
-    <article className="premium-card overflow-hidden">
+    <motion.article
+      {...hoverProps}
+      className="premium-card group relative overflow-hidden"
+    >
+      {glow}
       <ProjectImage
         project={project}
-        className="aspect-[16/9] border-b border-line"
+        className="relative z-10 aspect-[16/9] border-b border-line"
       />
-      <ProjectContent project={project} />
-    </article>
+      <div className="relative z-10">
+        <ProjectContent project={project} />
+      </div>
+    </motion.article>
   );
 }
