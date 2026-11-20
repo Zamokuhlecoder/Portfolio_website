@@ -10,7 +10,7 @@ const EASE = [0.22, 1, 0.36, 1];
 const SPRING = { type: "spring", stiffness: 380, damping: 24 };
 
 const leadParagraph =
-  "I am a final-year Information Technology student at the University of Johannesburg, with a focus on software development and business information systems.";
+  "I completed my Information Technology qualification at the University of Johannesburg in 2026, with a focus on software development and business information systems.";
 
 const bodyParagraphs = [
   "My interests span software engineering, mobile applications, data analytics, and business intelligence.",
@@ -20,7 +20,7 @@ const bodyParagraphs = [
 ];
 
 const metrics = [
-  { label: "Current stage", value: "Final year" },
+  { label: "Qualification", value: "Completed 2026" },
   { label: "Study period", value: "2023–2026" },
   { label: "Focus", value: "Software & data" },
 ];
@@ -172,7 +172,7 @@ export default function About() {
             </div>
 
             <div className="relative mt-5">
-              <span className="pill pill--forest">2023 – 2026</span>
+              <span className="pill pill--forest">Completed 2026 · 2023 – 2026</span>
             </div>
             <hr className="my-7 border-line" />
             <p className="eyebrow">Relevant Areas</p>

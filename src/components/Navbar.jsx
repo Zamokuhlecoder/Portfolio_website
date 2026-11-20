@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Download, Menu, X } from "lucide-react";
 
@@ -32,7 +32,7 @@ function NavigationLinks({
             <a
               href={`#${id}`}
               aria-current={isActive ? "page" : undefined}
-              onClick={onNavigate}
+              onClick={onNavigate ? (event) => onNavigate(event, id) : undefined}
               className={`relative block py-2 text-sm font-medium transition-colors ${
                 mobile ? "pl-4" : ""
               } ${isActive ? "text-accent" : "text-ink-muted hover:text-ink"}`}
@@ -87,6 +87,23 @@ export default function Navbar() {
   const reduce = !!useReducedMotion();
   const [activeSection, setActiveSection] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const pendingSection = useRef(null);
+
+  function navigateFromMenu(event, id) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+
+    const section = document.getElementById(id);
+    if (!section) return;
+
+    event.preventDefault();
+    pendingSection.current = section;
+    setMenuOpen(false);
+    if (window.location.hash !== `#${id}`) {
+      window.history.pushState(null, "", `#${id}`);
+    }
+  }
 
   useEffect(() => {
     const sections = navigation
@@ -121,7 +138,7 @@ export default function Navbar() {
       >
         <motion.a
           href="#home"
-          onClick={() => setMenuOpen(false)}
+          onClick={menuOpen ? (event) => navigateFromMenu(event, "home") : undefined}
           whileHover={reduce ? undefined : { x: 2 }}
           transition={SPRING}
           className="inline-flex items-center gap-2.5 text-xs font-bold tracking-tight text-ink sm:text-sm"
@@ -195,7 +212,13 @@ export default function Navbar() {
         </motion.button>
       </nav>
 
-      <AnimatePresence initial={false}>
+      <AnimatePresence
+        initial={false}
+        onExitComplete={() => {
+          pendingSection.current?.scrollIntoView({ behavior: "auto", block: "start" });
+          pendingSection.current = null;
+        }}
+      >
         {menuOpen ? (
           <motion.div
             id="mobile-menu"
@@ -204,13 +227,13 @@ export default function Navbar() {
             animate={reduce ? undefined : { height: "auto", opacity: 1 }}
             exit={reduce ? undefined : { height: 0, opacity: 0 }}
             transition={{ duration: 0.35, ease: EASE }}
-            className="overflow-hidden border-t border-line bg-canvas shadow-lg lg:hidden"
+            className="absolute inset-x-0 top-full max-h-[calc(100vh-4.25rem)] overflow-y-auto border-t border-line bg-canvas shadow-lg lg:hidden"
           >
             <div className="px-6 py-4">
               <NavigationLinks
                 activeSection={activeSection}
                 mobile
-                onNavigate={() => setMenuOpen(false)}
+                onNavigate={navigateFromMenu}
               />
               <DownloadButton mobile reduce={reduce} />
             </div>

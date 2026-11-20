@@ -69,4 +69,51 @@ export const projects = [
     githubUrl: "https://github.com/Zamokuhlecoder/freightshift-website",
     featured: false,
   },
+  {
+    id: "impactflow",
+    name: "ImpactFlow",
+    tagline: "Data Engineering & Intelligence Platform · 2026 – Present",
+    category: "Data Engineering · Analytics Engineering · Personal Project",
+    description:
+      "An end-to-end data engineering platform that integrates multiple data sources, automates processing, and transforms raw data into reliable, analytics-ready information.",
+    features: [
+      "CSV, Excel, JSON, REST API, and database ingestion",
+      "Python and Pandas ETL/ELT pipelines",
+      "Data cleaning, validation, and transformation",
+      "Bronze, Silver, and Gold medallion architecture",
+      "PostgreSQL analytical data platform",
+      "Data quality monitoring",
+      "Pipeline tracking and governance",
+      "React and TypeScript analytics dashboard",
+    ],
+    technologies: [
+      "Python",
+      "SQL",
+      "PostgreSQL",
+      "Pandas",
+      "FastAPI",
+      "React",
+      "TypeScript",
+      "Power BI",
+    ],
+    image: "/ProjectPictures/ImpactFlow1.png",
+    imageAlt: "ImpactFlow data engineering platform dashboard",
+    images: [
+      {
+        src: "/ProjectPictures/ImpactFlow1.png",
+        alt: "ImpactFlow data quality and programme performance dashboard",
+      },
+      {
+        src: "/ProjectPictures/ImpactFlow2.png",
+        alt: "ImpactFlow analytics overview and pipeline execution dashboard",
+      },
+      {
+        src: "/ProjectPictures/ImpactFlow3.png",
+        alt: "ImpactFlow ETL processing and data quality screen",
+      },
+    ],
+    liveUrl: null,
+    githubUrl: "https://github.com/Zamokuhlecoder/ImpactFlow",
+    featured: false,
+  },
 ];

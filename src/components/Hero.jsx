@@ -56,8 +56,9 @@ export default function Hero() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="home" className="scroll-mt-24 border-b border-line">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16 lg:px-8 lg:py-32">
+    <section id="home" className="hero-section relative isolate scroll-mt-24 overflow-hidden border-b border-line">
+      <div aria-hidden="true" className="hero-grid" />
+      <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-24 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-16 lg:px-8 lg:py-32">
         {/* ─── Left: intro ───────────────────────────────────── */}
         <motion.div
           className="hero-intro"
@@ -104,16 +105,18 @@ export default function Hero() {
             variants={rise}
             className="mt-6 max-w-xl text-xl font-semibold leading-snug tracking-tight text-accent-deep sm:text-2xl"
           >
-            Where software, data and business meet.
+            Where <span className="hero-flow-word">software,</span>{" "}
+            <span className="hero-flow-word">data</span> and{" "}
+            <span className="hero-flow-word">business</span> meet.
           </motion.p>
 
           <motion.p
             variants={rise}
             className="mt-6 max-w-xl text-base leading-7 text-ink-muted"
           >
-            I&rsquo;m a final-year Information Technology student at the
-            University of Johannesburg, interested in building useful software
-            and turning data into practical insight.
+            I completed my Information Technology qualification at the
+            University of Johannesburg in 2026. I&rsquo;m interested in building
+            useful software and turning data into practical insight.
           </motion.p>
 
           <motion.ul
@@ -136,7 +139,7 @@ export default function Hero() {
                   }}
                   aria-hidden="true"
                 />
-                {role}
+                <span className="hero-role-label">{role}</span>
               </motion.li>
             ))}
           </motion.ul>
@@ -180,6 +183,9 @@ export default function Hero() {
           <motion.div variants={rise}>
             <SocialLinks className="mt-8" />
           </motion.div>
+          <motion.p variants={rise} className="hero-signature mt-10">
+            Software <span> / </span> Data <span> / </span> Business systems
+          </motion.p>
         </motion.div>
 
         {/* ─── Right: portrait ───────────────────────────────── */}
@@ -189,6 +195,13 @@ export default function Hero() {
           animate={reduce ? undefined : "visible"}
           variants={panelReveal}
         >
+          <div className="hero-sparkles" aria-hidden="true">
+            <span className="hero-spark hero-spark--one" />
+            <span className="hero-spark hero-spark--two" />
+            <span className="hero-spark hero-spark--three" />
+            <span className="hero-spark hero-spark--four" />
+            <span className="hero-spark hero-spark--five" />
+          </div>
           {/* Animated accent ring behind portrait */}
           <motion.div
             aria-hidden="true"

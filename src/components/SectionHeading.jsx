@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -31,11 +32,12 @@ const titleRise = {
 
 export default function SectionHeading({ eyebrow, title, description, id }) {
   const reduce = useReducedMotion();
+  const words = title.split(" ");
 
   return (
     <motion.div
       id={id}
-      className="scroll-mt-24"
+      className="section-heading scroll-mt-24"
       initial={reduce ? false : "hidden"}
       whileInView={reduce ? undefined : "visible"}
       viewport={{ once: true, margin: "-60px" }}
@@ -62,7 +64,17 @@ export default function SectionHeading({ eyebrow, title, description, id }) {
         variants={titleRise}
         className="mt-4 max-w-4xl font-serif text-4xl font-medium leading-[1.05] tracking-[-0.04em] text-ink-strong sm:text-5xl"
       >
-        {title}
+        {words.map((word, index) => (
+          <Fragment key={`${word}-${index}`}>
+            <span
+              className="section-title-word"
+              style={{ animationDelay: `${index * 0.2}s` }}
+            >
+              {word}
+            </span>
+            {index < words.length - 1 ? " " : null}
+          </Fragment>
+        ))}
       </motion.h2>
 
       {description ? (

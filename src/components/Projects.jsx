@@ -57,12 +57,16 @@ export default function Projects() {
             {otherProjects.map((project) => (
               <motion.div
                 key={project.id}
+                className={project.images?.length > 1 ? "lg:col-span-2" : ""}
                 variants={cardRise}
                 initial={reduce ? false : "hidden"}
                 whileInView={reduce ? undefined : "visible"}
                 viewport={{ once: true, margin: "-40px" }}
               >
-                <ProjectCard project={project} />
+                <ProjectCard
+                  project={project}
+                  variant={project.images?.length > 1 ? "image-right" : "image-top"}
+                />
               </motion.div>
             ))}
           </div>

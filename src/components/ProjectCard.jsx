@@ -2,6 +2,8 @@ import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import {
   BarChart3,
+  ChevronLeft,
+  ChevronRight,
   ExternalLink,
   Github,
   Image as ImageIcon,
@@ -60,7 +62,15 @@ const techItem = {
 
 function ProjectImage({ project, className = "" }) {
   const reduce = useReducedMotion();
-  const [imageAvailable, setImageAvailable] = useState(Boolean(project.image));
+  const [imageIndex, setImageIndex] = useState(0);
+  const [failedImages, setFailedImages] = useState([]);
+  const images = project.images?.length
+    ? project.images
+    : project.image
+      ? [{ src: project.image, alt: project.imageAlt ?? `${project.name} project preview` }]
+      : [];
+  const image = images[imageIndex];
+  const imageAvailable = image && !failedImages.includes(image.src);
   const artwork = projectArtwork[project.id] ?? {
     Icon: ImageIcon,
     mark: project.name.slice(0, 1),
@@ -69,7 +79,7 @@ function ProjectImage({ project, className = "" }) {
 
   return (
     <motion.div
-      className={`group/image relative overflow-hidden bg-forest-soft ${className}`}
+      className={`group/image relative overflow-hidden bg-forest-soft ${images.length > 1 ? "project-image--gallery" : ""} ${className}`}
       initial={reduce ? false : { opacity: 0, scale: 1.03, filter: "blur(6px)" }}
       whileInView={
         reduce ? undefined : { opacity: 1, scale: 1, filter: "blur(0px)" }
@@ -78,15 +88,15 @@ function ProjectImage({ project, className = "" }) {
       transition={{ duration: 0.9, ease: EASE }}
     >
       {imageAvailable ? (
-        <div className="project-preview">
+        <div className={`project-preview ${images.length > 1 ? "project-preview--gallery" : ""}`}>
           <div className="project-preview__frame">
             <img
-              src={project.image}
-              alt={project.imageAlt ?? `${project.name} project preview`}
+              src={image.src}
+              alt={image.alt}
               loading="lazy"
               onError={() => {
-                console.error(`Could not load project image: ${project.image}`);
-                setImageAvailable(false);
+                console.error(`Could not load project image: ${image.src}`);
+                setFailedImages((failed) => [...failed, image.src]);
               }}
               className="project-preview__image transition-transform duration-700 ease-out group-hover/image:scale-[1.04]"
             />
@@ -122,6 +132,29 @@ function ProjectImage({ project, className = "" }) {
           </motion.span>
         </div>
       )}
+      {images.length > 1 ? (
+        <div className="project-gallery-controls">
+          <span className="project-gallery-count" aria-live="polite" aria-atomic="true">
+            Image {imageIndex + 1} of {images.length}
+          </span>
+          <div className="project-gallery-buttons">
+            <button
+              type="button"
+              aria-label={`Previous ${project.name} image`}
+              onClick={() => setImageIndex((index) => (index - 1 + images.length) % images.length)}
+            >
+              <ChevronLeft size={17} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              aria-label={`Next ${project.name} image`}
+              onClick={() => setImageIndex((index) => (index + 1) % images.length)}
+            >
+              <ChevronRight size={17} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      ) : null}
     </motion.div>
   );
 }
